@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HaarVision – Premium Friseursalon</title>
+  <meta name="description" content="Premium Friseursalon: Haarschnitte, Coloration, Barber-Service, Brautstyling und Pflegeprodukte." />
+  <style>
+    :root {
+      --primary:#0b1220;
+      --accent:#2dd4bf;
+      --bg:#0f172a;
+      --surface:#111c33;
+      --surface2:#0b142a;
+      --text:#e5e7eb;
+      --muted:#9ca3af;
+      --border:rgba(255,255,255,.08);
+      --shadow:0 12px 40px rgba(0,0,0,.35);
+      --radius:16px;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.6;
+    }
+
+    /* Hero */
+    header{
+      background:
+        radial-gradient(1200px 500px at 20% 10%, rgba(45,212,191,.22), transparent 60%),
+        linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.65)),
+        url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1800&q=80');
+      background-size:cover;
+      background-position:center;
+      padding:86px 20px 70px;
+      text-align:center;
+      border-bottom:1px solid var(--border);
+    }
+    header h1{ margin:0 0 10px; font-size: clamp(2.2rem, 4vw, 3.4rem); letter-spacing:.5px; }
+    header p{ margin:0 0 22px; font-size:1.15rem; color:rgba(229,231,235,.92); }
+
+    .hero-cta{
+      display:flex; gap:12px; justify-content:center; flex-wrap:wrap;
+    }
+
+    /* Nav */
+    nav{
+      position:sticky; top:0; z-index:50;
+      background:rgba(17,28,51,.82);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid var(--border);
+      padding:12px 14px;
+    }
+    .nav-inner{ max-width:1150px; margin:0 auto; display:flex; gap:10px; align-items:center; justify-content:space-between; }
+    .brand-mini{ display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.4px; }
+    .brand-dot{ width:10px; height:10px; border-radius:999px; background:var(--accent); box-shadow:0 0 0 6px rgba(45,212,191,.12); }
+    .nav-links{ display:flex; gap:16px; flex-wrap:wrap; justify-content:center; }
+    nav a{ color:var(--text); text-decoration:none; font-weight:600; opacity:.92; }
+    nav a:hover{ color:var(--accent); opacity:1; }
+
+    /* Layout */
+    section{ max-width:1150px; margin:64px auto; padding:0 20px; }
+    h2{ font-size: clamp(1.6rem, 3vw, 2.2rem); margin:0 0 22px; position:relative; }
+    h2::after{ content:""; width:72px; height:3px; background:var(--accent); position:absolute; bottom:-10px; left:0; border-radius:999px; }
+    p{ color:rgba(229,231,235,.92); }
+
+    .grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:22px; }
+    .grid.tight{ gap:16px; }
+
+    .card{
+      background:var(--surface);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:var(--radius);
+      padding:22px;
+      box-shadow: var(--shadow);
+    }
+
+    .card.soft{ background:linear-gradient(180deg, rgba(17,28,51,.95), rgba(11,20,42,.95)); }
+
+    .muted{ color:var(--muted); }
+
+    /* Buttons */
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding:12px 16px; border-radius:999px; border:1px solid var(--border);
+      text-decoration:none; font-weight:700; letter-spacing:.2px;
+      cursor:pointer;
+      transition: transform .08s ease, opacity .15s ease, border-color .15s ease;
+      user-select:none;
+    }
+    .btn:active{ transform: translateY(1px); }
+    .btn-primary{ background:var(--accent); color:#06201c; border-color: rgba(45,212,191,.45); }
+    .btn-primary:hover{ opacity:.95; }
+    .btn-ghost{ background:rgba(255,255,255,.04); color:var(--text); }
+    .btn-ghost:hover{ border-color: rgba(45,212,191,.35); }
+
+    /* Gallery */
+    .masonry{ display:grid; grid-template-columns:repeat(12, 1fr); gap:14px; }
+    .shot{ border-radius:18px; overflow:hidden; border:1px solid rgba(255,255,255,.08); box-shadow: var(--shadow); }
+    .shot img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .span-6{ grid-column: span 6; }
+    .span-4{ grid-column: span 4; }
+    .span-8{ grid-column: span 8; }
+    .span-12{ grid-column: span 12; }
+
+    /* Badges */
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:6px 10px; border-radius:999px;
+      background:rgba(45,212,191,.12);
+      border:1px solid rgba(45,212,191,.25);
+      color:rgba(229,231,235,.95);
+      font-weight:700; font-size:.9rem;
+    }
+
+    /* Lists */
+    ul{ margin:10px 0 0 18px; }
+    li{ margin:6px 0; color:rgba(229,231,235,.92); }
+
+    /* Pricing rows */
+    .row{ display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
+    .price{ font-weight:900; color:var(--accent); white-space:nowrap; }
+
+    /* Forms */
+    form{ display:grid; gap:12px; }
+    .two{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    label{ font-size:.92rem; color:rgba(229,231,235,.9); font-weight:650; }
+    input, select, textarea{
+      width:100%; padding:12px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.04);
+      color:var(--text);
+      outline:none;
+    }
+    input:focus, select:focus, textarea:focus{ border-color: rgba(45,212,191,.45); box-shadow:0 0 0 5px rgba(45,212,191,.12); }
+    textarea{ min-height:110px; resize:vertical; }
+    .form-hint{ font-size:.92rem; color:var(--muted); }
+
+    /* Shop */
+    .product{
+      display:flex; gap:14px;
+      align-items:flex-start;
+    }
+    .product img{
+      width:96px; height:96px;
+      border-radius:14px;
+      object-fit:cover;
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .product h3{ margin:0 0 6px; font-size:1.05rem; }
+    .product p{ margin:0; color:rgba(229,231,235,.86); font-size:.95rem; }
+    .product .meta{ margin-top:10px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+    .tag{
+      font-size:.85rem; font-weight:700;
+      padding:6px 10px; border-radius:999px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+      color:rgba(229,231,235,.92);
+    }
+
+    /* Cart */
+    .cart-btn{ position:fixed; right:18px; bottom:18px; z-index:60; }
+    .cart-fab{
+      display:flex; align-items:center; gap:10px;
+      padding:14px 16px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(17,28,51,.92);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+      color:var(--text);
+      font-weight:800;
+      cursor:pointer;
+    }
+    .pill{
+      min-width:28px; height:28px; display:inline-flex; align-items:center; justify-content:center;
+      border-radius:999px;
+      background:rgba(45,212,191,.18);
+      border:1px solid rgba(45,212,191,.35);
+      color:rgba(229,231,235,.95);
+      font-weight:900;
+    }
+    .drawer{
+      position:fixed; top:0; right:-420px; width:420px; max-width:92vw; height:100vh;
+      background:linear-gradient(180deg, rgba(17,28,51,.98), rgba(11,20,42,.98));
+      border-left:1px solid rgba(255,255,255,.10);
+      box-shadow:-16px 0 40px rgba(0,0,0,.45);
+      z-index:70;
+      transition:right .22s ease;
+      display:flex; flex-direction:column;
+    }
+    .drawer.open{ right:0; }
+    .drawer header{ padding:18px 18px 12px; background:transparent; border-bottom:1px solid rgba(255,255,255,.10); text-align:left; }
+    .drawer h3{ margin:0; font-size:1.15rem; }
+    .drawer .content{ padding:14px 18px; overflow:auto; flex:1; }
+    .line{ height:1px; background:rgba(255,255,255,.10); margin:12px 0; }
+    .cart-item{ display:flex; justify-content:space-between; gap:10px; padding:10px 0; }
+    .cart-item small{ color:var(--muted); }
+    .drawer footer{ margin-top:auto; background:transparent; border-top:1px solid rgba(255,255,255,.10); }
+    .drawer .footer-inner{ padding:14px 18px; display:grid; gap:10px; }
+
+    /* Map */
+    .map{ width:100%; height:340px; border:0; border-radius:18px; overflow:hidden; }
+
+    /* Responsive */
+    @media (max-width: 720px){
+      .two{ grid-template-columns:1fr; }
+      .masonry{ grid-template-columns:repeat(6, 1fr); }
+      .span-6{ grid-column: span 6; }
+      .span-8{ grid-column: span 6; }
+      .span-4{ grid-column: span 6; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <span class="badge">⭐ 4,9 / 5 · 1.248 Bewertungen</span>
+  <h1>HaarVision</h1>
+  <p>Premium Friseursalon für Stil, Qualität & Persönlichkeit</p>
+  <div class="hero-cta">
+    <a class="btn btn-primary" href="#termin">Termin buchen</a>
+    <a class="btn btn-ghost" href="#shop">Shop ansehen</a>
+    <a class="btn btn-ghost" href="#galerie">Galerie</a>
+  </div>
+</header>
+
+<nav>
+  <div class="nav-inner">
+    <div class="brand-mini"><span class="brand-dot"></span> HaarVision</div>
+    <div class="nav-links">
+      <a href="#ueber">Über uns</a>
+      <a href="#leistungen">Leistungen</a>
+      <a href="#preise">Preise</a>
+      <a href="#angebote">Angebote</a>
+      <a href="#galerie">Galerie</a>
+      <a href="#shop">Shop</a>
+      <a href="#termin">Termin</a>
+      <a href="#team">Team</a>
+      <a href="#standort">Standort</a>
+      <a href="#faq">FAQ</a>
+      <a href="#kontakt">Kontakt</a>
+    </div>
+    <button class="btn btn-ghost" type="button" onclick="toggleCart(true)">Warenkorb</button>
+  </div>
+</nav>
+
+<section id="ueber">
+  <h2>Über HaarVision</h2>
+  <div class="grid">
+    <div class="card soft">
+      <p>
+        HaarVision ist ein moderner Friseursalon im Herzen von Berlin. Seit 2015 stehen wir für
+        individuelle Beratung, hochwertige Produkte und präzises Handwerk. Unser Ziel ist es,
+        dass sich jeder Kunde nicht nur gut gestylt, sondern rundum wohlfühlt.
+      </p>
+      <ul>
+        <li><strong>Beratung zuerst:</strong> Wir nehmen uns Zeit für deinen Haartyp & deinen Alltag.</li>
+        <li><strong>Premium-Produkte:</strong> Pflege & Styling abgestimmt auf deine Bedürfnisse.</li>
+        <li><strong>Sauberer Schnitt:</strong> Präzision, die auch nach Wochen noch sitzt.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="masonry">
+        <div class="shot span-6"><img alt="Salon" src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1000&q=80"></div>
+        <div class="shot span-6"><img alt="Tools" src="https://images.unsplash.com/photo-1600948836101-f9ffda59d250?auto=format&fit=crop&w=1000&q=80"></div>
+        <div class="shot span-12"><img alt="Styling" src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?auto=format&fit=crop&w=1400&q=80"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="leistungen">
+  <h2>Unsere Leistungen</h2>
+  <div class="grid">
+    <div class="card">✂️ Damenhaarschnitt inkl. Beratung & Styling<br><span class="muted">Waschen · Schneiden · Föhnen</span></div>
+    <div class="card">🧔 Herrenhaarschnitt & Barber-Service<br><span class="muted">Fade · Konturen · Pflege</span></div>
+    <div class="card">🎨 Färben, Tönen & Strähnen<br><span class="muted">Natürlich · Glanz · Haltbarkeit</span></div>
+    <div class="card">🌿 Balayage & Blond-Spezial<br><span class="muted">Soft Blend · Face Framing</span></div>
+    <div class="card">💍 Braut- & Eventfrisuren<br><span class="muted">Probetermin · Styling · Finish</span></div>
+    <div class="card">👶 Kinderhaarschnitte<br><span class="muted">Schnell · Ruhig · Freundlich</span></div>
+    <div class="card">💆 Keratin- & Pflegebehandlungen<br><span class="muted">Repair · Anti-Frizz · Glanz</span></div>
+    <div class="card">🔥 Dauerwelle & Volumenaufbau<br><span class="muted">Modern · Weich · Natürlich</span></div>
+    <div class="card">🪒 Bartpflege & Nassrasur<br><span class="muted">Hot Towel · Konturen</span></div>
+    <div class="card">🎓 Styling-Beratung & Typveränderung<br><span class="muted">Look-Plan · Routine · Produkte</span></div>
+    <div class="card">📸 Fotoshooting-Styling<br><span class="muted">Editorial · Business · Event</span></div>
+    <div class="card">🎁 Gutschein-Service<br><span class="muted">Digital · Print · Sofort</span></div>
+  </div>
+</section>
+
+<section id="preise">
+  <h2>Preise</h2>
+  <div class="grid">
+    <div class="card">
+      <div class="row"><div><strong>Damenhaarschnitt</strong><br><span class="muted">inkl. Waschen & Styling</span></div><div class="price">ab 45 €</div></div>
+      <div class="line"></div>
+      <div class="row"><div><strong>Herrenhaarschnitt</strong><br><span class="muted">inkl. Konturen</span></div><div class="price">28 €</div></div>
+      <div class="line"></div>
+      <div class="row"><div><strong>Kinderhaarschnitt</strong><br><span class="muted">bis 12 Jahre</span></div><div class="price">18 €</div></div>
+    </div>
+    <div class="card">
+      <div class="row"><div><strong>Färben komplett</strong><br><span class="muted">inkl. Pflege</span></div><div class="price">ab 60 €</div></div>
+      <div class="line"></div>
+      <div class="row"><div><strong>Balayage</strong><br><span class="muted">inkl. Glossing</span></div><div class="price">ab 120 €</div></div>
+      <div class="line"></div>
+      <div class="row"><div><strong>Bartpflege</strong><br><span class="muted">Hot Towel optional</span></div><div class="price">15 €</div></div>
+    </div>
+    <div class="card soft">
+      <strong>Transparenz</strong>
+      <p class="muted" style="margin:10px 0 0;">
+        Preise können je nach Haarlänge, Aufwand und Wunschservice variieren. Vor Beginn bekommst du eine klare Empfehlung.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="angebote">
+  <h2>Angebote & Aktionen</h2>
+  <div class="grid">
+    <div class="card">
+      <span class="badge">Beliebt</span>
+      <h3 style="margin:12px 0 8px;">Balayage Paket</h3>
+      <p class="muted">Balayage + Glossing + Pflege-Treatment</p>
+      <div class="row" style="margin-top:12px;"><span class="muted">Paketpreis</span><span class="price">ab 169 €</span></div>
+    </div>
+    <div class="card">
+      <span class="badge">Wochenspecial</span>
+      <h3 style="margin:12px 0 8px;">Student Day</h3>
+      <p class="muted">-10% auf Schnitt & Styling (Mo–Do)</p>
+      <div class="row" style="margin-top:12px;"><span class="muted">Rabatt</span><span class="price">-10%</span></div>
+    </div>
+    <div class="card">
+      <span class="badge">Bundle</span>
+      <h3 style="margin:12px 0 8px;">Pflege-Set</h3>
+      <p class="muted">Shampoo + Conditioner + Serum</p>
+      <div class="row" style="margin-top:12px;"><span class="muted">Setpreis</span><span class="price">49,90 €</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="galerie">
+  <h2>Galerie – Unsere Arbeiten</h2>
+  <p class="muted">Auswahl an Looks: Balayage, Soft Waves, Barber-Fades und Event-Stylings.</p>
+  <div class="masonry" style="margin-top:18px;">
+    <div class="shot span-8"><img alt="Balayage" src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?auto=format&fit=crop&w=1600&q=80"></div>
+    <div class="shot span-4"><img alt="Barber" src="https://images.unsplash.com/photo-1593702281541-9c4e2a0c40c7?auto=format&fit=crop&w=900&q=80"></div>
+    <div class="shot span-4"><img alt="Styling" src="https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=900&q=80"></div>
+    <div class="shot span-8"><img alt="Waves" src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=1600&q=80"></div>
+    <div class="shot span-6"><img alt="Color" src="https://images.unsplash.com/photo-1582095133179-bfd08e2fc6b3?auto=format&fit=crop&w=1200&q=80"></div>
+    <div class="shot span-6"><img alt="Salon" src="https://images.unsplash.com/photo-1559599101-f09722fb4948?auto=format&fit=crop&w=1200&q=80"></div>
+  </div>
+</section>
+
+<section id="shop">
+  <h2>Produkte & Online-Shop</h2>
+  <p class="muted">Pflege- und Stylingprodukte – passend zu deinem Haartyp.</p>
+  <div class="grid" style="margin-top:18px;">
+    <div class="card">
+      <div class="product">
+        <img alt="Repair Shampoo" src="https://images.unsplash.com/photo-1620917669788-be691fc8a4b1?auto=format&fit=crop&w=500&q=80">
+        <div>
+          <h3>HaarVision Repair Shampoo</h3>
+          <p>Stärkt geschädigtes Haar, sanfte Reinigung, mehr Glanz.</p>
+          <div class="meta">
+            <span class="tag">Bestseller</span>
+            <span class="price">19,90 €</span>
+            <button class="btn btn-primary" type="button" onclick="addToCart('Repair Shampoo', 19.90)">In den Warenkorb</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="product">
+        <img alt="Volume Conditioner" src="https://images.unsplash.com/photo-1611930022073-7f1f20f9f9de?auto=format&fit=crop&w=500&q=80">
+        <div>
+          <h3>Volume Boost Conditioner</h3>
+          <p>Für feines Haar: mehr Fülle, ohne zu beschweren.</p>
+          <div class="meta">
+            <span class="tag">Feines Haar</span>
+            <span class="price">17,90 €</span>
+            <button class="btn btn-primary" type="button" onclick="addToCart('Volume Conditioner', 17.90)">In den Warenkorb</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="product">
+        <img alt="Argan Serum" src="https://images.unsplash.com/photo-1612810806513-1e84a9e7f9a9?auto=format&fit=crop&w=500&q=80">
+        <div>
+          <h3>Argan Oil Hair Serum</h3>
+          <p>Anti-Frizz, Hitzeschutz, seidiger Finish – sparsam dosieren.</p>
+          <div class="meta">
+            <span class="tag">Glanz</span>
+            <span class="price">24,90 €</span>
+            <button class="btn btn-primary" type="button" onclick="addToCart('Argan Serum', 24.90)">In den Warenkorb</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="product">
+        <img alt="Heat Spray" src="https://images.unsplash.com/photo-1629198725538-5f9f0c6f4034?auto=format&fit=crop&w=500&q=80">
+        <div>
+          <h3>Heat Protection Spray</h3>
+          <p>Schützt beim Föhnen & Glätten, reduziert Haarbruch.</p>
+          <div class="meta">
+            <span class="tag">Hitzeschutz</span>
+            <span class="price">14,90 €</span>
+            <button class="btn btn-primary" type="button" onclick="addToCart('Heat Spray', 14.90)">In den Warenkorb</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="product">
+        <img alt="Men Wax" src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=500&q=80">
+        <div>
+          <h3>Men Styling Wax</h3>
+          <p>Mattes Finish, starker Halt, leicht auswaschbar.</p>
+          <div class="meta">
+            <span class="tag">Barber</span>
+            <span class="price">12,90 €</span>
+            <button class="btn btn-primary" type="button" onclick="addToCart('Men Wax', 12.90)">In den Warenkorb</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="product">
+        <img alt="Gift Box" src="https://images.unsplash.com/photo-1619451334792-150fd785ee74?auto=format&fit=crop&w=500&q=80">
+        <div>
+          <h3>Gift Box Pflege-Set</h3>
+          <p>Shampoo + Conditioner + Serum – ideal als Geschenk.</p>
+          <div class="meta">
+            <span class="tag">Geschenk</span>
+            <span class="price">49,90 €</span>
+            <button class="btn btn-primary" type="button" onclick="addToCart('Gift Box', 49.90)">In den Warenkorb</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="termin">
+  <h2>Termin buchen</h2>
+  <div class="grid">
+    <div class="card">
+      <form onsubmit="handleBooking(event)">
+        <div class="two">
+          <div>
+            <label for="name">Name</label>
+            <input id="name" name="name" placeholder="Max Mustermann" required />
+          </div>
+          <div>
+            <label for="phone">Telefon</label>
+            <input id="phone" name="phone" placeholder="+49 ..." required />
+          </div>
+        </div>
+
+        <div class="two">
+          <div>
+            <label for="service">Leistung</label>
+            <select id="service" name="service" required>
+              <option value="">Bitte auswählen…</option>
+              <option>Damenhaarschnitt</option>
+              <option>Herrenhaarschnitt</option>
+              <option>Balayage</option>
+              <option>Färben / Tönen</option>
+              <option>Bartpflege</option>
+              <option>Brautstyling</option>
+              <option>Pflegebehandlung</option>
+            </select>
+          </div>
+          <div>
+            <label for="date">Wunschtermin</label>
+            <input id="date" name="date" type="datetime-local" required />
+          </div>
+        </div>
+
+        <div>
+          <label for="msg">Nachricht</label>
+          <textarea id="msg" name="msg" placeholder="Haartyp, Wunschlook, besondere Hinweise…"></textarea>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Anfrage senden</button>
+        <div class="form-hint">Du erhältst eine Rückmeldung per Telefon oder E‑Mail. (Beispiel-Formular)</div>
+      </form>
+    </div>
+
+    <div class="card soft">
+      <strong>Öffnungszeiten</strong>
+      <p class="muted" style="margin:10px 0 0;">
+        Montag – Freitag: 09:00 – 18:30 Uhr<br>
+        Samstag: 09:00 – 14:00 Uhr<br>
+        Sonntag: Geschlossen
+      </p>
+      <div class="line"></div>
+      <strong>Express-Services</strong>
+      <ul>
+        <li>Konturen & Nacken – 10 Minuten</li>
+        <li>Quick Styling – 15 Minuten</li>
+        <li>Glossing Refresh – 20 Minuten</li>
+      </ul>
+      <div class="line"></div>
+      <strong>Hinweis</strong>
+      <p class="muted" style="margin:10px 0 0;">Bei Colorationen empfehlen wir eine kurze Vorabberatung.</p>
+    </div>
+  </div>
+</section>
+
+<section id="team">
+  <h2>Unser Team</h2>
+  <div class="grid">
+    <div class="card"><strong>Anna Müller</strong><br><span class="muted">Inhaberin & Creative Director</span></div>
+    <div class="card"><strong>Kevin Schneider</strong><br><span class="muted">Senior Barber</span></div>
+    <div class="card"><strong>Laura Becker</strong><br><span class="muted">Coloration & Balayage</span></div>
+    <div class="card"><strong>Sophie Wagner</strong><br><span class="muted">Junior Stylistin</span></div>
+    <div class="card"><strong>Daniel Fischer</strong><br><span class="muted">Haarpflege-Spezialist</span></div>
+    <div class="card"><strong>Miriam Koch</strong><br><span class="muted">Braut- & Eventstyling</span></div>
+  </div>
+</section>
+
+<section id="bewertungen">
+  <h2>Kundenbewertungen</h2>
+  <div class="grid">
+    <div class="card">⭐️⭐️⭐️⭐️⭐️<br>„Super Beratung, tolles Team und mega Ergebnis!“<br><em class="muted">– Lisa K.</em></div>
+    <div class="card">⭐️⭐️⭐️⭐️⭐️<br>„Endlich ein Friseur, der zuhört. Absolute Empfehlung.“<br><em class="muted">– Markus W.</em></div>
+    <div class="card">⭐️⭐️⭐️⭐️⭐️<br>„Balayage perfekt getroffen, komme definitiv wieder.“<br><em class="muted">– Sarah M.</em></div>
+    <div class="card">⭐️⭐️⭐️⭐️⭐️<br>„Für Männer top – Barber-Service ist klasse.“<br><em class="muted">– Daniel F.</em></div>
+  </div>
+</section>
+
+<section id="standort">
+  <h2>Standort & Anfahrt</h2>
+  <div class="grid">
+    <div class="card soft">
+      <strong>Adresse</strong>
+      <p class="muted" style="margin:10px 0 0;">
+        Musterstraße 12, 10115 Berlin
+      </p>
+      <div class="line"></div>
+      <strong>ÖPNV</strong>
+      <ul>
+        <li>U‑Bahn: Oranienburger Tor (ca. 6 Min.)</li>
+        <li>S‑Bahn: Friedrichstraße (ca. 12 Min.)</li>
+        <li>Tram: Station Musterplatz (ca. 3 Min.)</li>
+      </ul>
+      <div class="line"></div>
+      <strong>Parken</strong>
+      <ul>
+        <li>Kurzzeitparkplätze direkt vor dem Salon</li>
+        <li>Parkhaus „City Mitte“ (ca. 4 Min. zu Fuß)</li>
+      </ul>
+    </div>
+    <div class="card" style="padding:0;">
+      <iframe class="map" title="Karte" src="https://www.openstreetmap.org/export/embed.html?bbox=13.375%2C52.520%2C13.405%2C52.530&layer=mapnik"></iframe>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <h2>Häufige Fragen</h2>
+  <div class="grid">
+    <div class="card"><strong>Muss ich einen Termin vereinbaren?</strong><br><span class="muted">Ja, wir arbeiten überwiegend mit Terminen. Spontan ist je nach Auslastung möglich.</span></div>
+    <div class="card"><strong>Wie lange dauert Balayage?</strong><br><span class="muted">Je nach Haarlänge & Technik ca. 2–4 Stunden inklusive Pflege und Finish.</span></div>
+    <div class="card"><strong>Was empfehlt ihr bei trockenem Haar?</strong><br><span class="muted">Repair Shampoo + Serum und alle 2–3 Wochen ein Pflege-Treatment im Salon.</span></div>
+    <div class="card"><strong>Gibt es Rabatte?</strong><br><span class="muted">Für Studierende sowie Stammkunden bieten wir wechselnde Aktionen.</span></div>
+    <div class="card"><strong>Sind Kinder willkommen?</strong><br><span class="muted">Natürlich – wir nehmen uns Zeit und arbeiten besonders ruhig.</span></div>
+    <div class="card"><strong>Kann ich Produkte im Salon kaufen?</strong><br><span class="muted">Ja – alle Shop-Produkte sind auch vor Ort verfügbar.</span></div>
+  </div>
+</section>
+
+<section id="kontakt">
+  <h2>Kontakt</h2>
+  <div class="grid">
+    <div class="card">
+      <strong>Telefon</strong><br>
+      <span class="muted">+49 30 12345678</span>
+      <div class="line"></div>
+      <strong>E‑Mail</strong><br>
+      <span class="muted">kontakt@haarvision.de</span>
+      <div class="line"></div>
+      <strong>WhatsApp</strong><br>
+      <span class="muted">+49 170 1234567</span>
+    </div>
+    <div class="card soft">
+      <strong>Hinweis</strong>
+      <p class="muted" style="margin:10px 0 0;">
+        Für Farbservices empfehlen wir eine kurze Vorabberatung. Bitte bring – falls vorhanden – ein Referenzfoto mit.
+      </p>
+      <div class="line"></div>
+      <strong>Hygiene & Qualität</strong>
+      <ul>
+        <li>Desinfizierte Tools nach jedem Kunden</li>
+        <li>Hautfreundliche Pflegeprodukte</li>
+        <li>Regelmäßige Fortbildungen im Team</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer style="background:#050913; color:white; text-align:center; padding:44px 20px; border-top:1px solid rgba(255,255,255,.08);">
+  <p style="margin:0 0 10px; font-weight:800; letter-spacing:.2px;">© 2026 HaarVision</p>
+  <small style="color:#9aa3b2;">Impressum · Datenschutz · AGB</small>
+</footer>
+
+<!-- Floating Cart Button -->
+<div class="cart-btn">
+  <button class="cart-fab" type="button" onclick="toggleCart(true)">
+    Warenkorb <span class="pill" id="cartCount">0</span>
+  </button>
+</div>
+
+<!-- Cart Drawer -->
+<div class="drawer" id="cartDrawer" aria-hidden="true">
+  <header>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
+      <h3>Warenkorb</h3>
+      <button class="btn btn-ghost" type="button" onclick="toggleCart(false)">Schließen</button>
+    </div>
+  </header>
+  <div class="content">
+    <div id="cartItems" class="muted">Noch keine Produkte im Warenkorb.</div>
+  </div>
+  <footer>
+    <div class="footer-inner">
+      <div class="row"><strong>Zwischensumme</strong><strong class="price" id="cartTotal">0,00 €</strong></div>
+      <button class="btn btn-primary" type="button" onclick="checkout()">Zur Kasse</button>
+      <button class="btn btn-ghost" type="button" onclick="clearCart()">Warenkorb leeren</button>
+      <div class="form-hint">Beispiel-Shop-UI für Präsentationszwecke.</div>
+    </div>
+  </footer>
+</div>
+
+<script>
+  // Simple demo cart (client-side only)
+  const cart = [];
+
+  function money(n){
+    return n.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function addToCart(name, price){
+    cart.push({ name, price });
+    renderCart();
+    toggleCart(true);
+  }
+
+  function removeFromCart(index){
+    cart.splice(index, 1);
+    renderCart();
+  }
+
+  function clearCart(){
+    cart.length = 0;
+    renderCart();
+  }
+
+  function cartSum(){
+    return cart.reduce((acc, item) => acc + item.price, 0);
+  }
+
+  function renderCart(){
+    const count = document.getElementById('cartCount');
+    const items = document.getElementById('cartItems');
+    const total = document.getElementById('cartTotal');
+
+    count.textContent = cart.length;
+    total.textContent = money(cartSum()) + ' €';
+
+    if(cart.length === 0){
+      items.innerHTML = 'Noch keine Produkte im Warenkorb.';
+      return;
+    }
+
+    items.innerHTML = cart.map((it, idx) => `
+      <div class="cart-item">
+        <div>
+          <strong>${it.name}</strong><br>
+          <small>${money(it.price)} €</small>
+        </div>
+        <button class="btn btn-ghost" type="button" onclick="removeFromCart(${idx})">Entfernen</button>
+      </div>
+      <div class="line"></div>
+    `).join('');
+  }
+
+  function toggleCart(open){
+    const drawer = document.getElementById('cartDrawer');
+    drawer.classList.toggle('open', !!open);
+    drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
+  }
+
+  function checkout(){
+    alert('Checkout-Demo: In einer echten Website würdest du hier zur Bezahlung/Bestellung weitergeleitet werden.');
+  }
+
+  function handleBooking(e){
+    e.preventDefault();
+    const form = e.target;
+    const data = new FormData(form);
+    const summary = `Danke! Wir melden uns schnellstmöglich.\n\nName: ${data.get('name')}\nTelefon: ${data.get('phone')}\nLeistung: ${data.get('service')}\nWunschtermin: ${data.get('date')}`;
+    alert(summary);
+    form.reset();
+  }
+</script>
+
+</body>
+</html>
